@@ -96,6 +96,7 @@ public class Card extends ImageView {
                 result.add(new Card(d, rank, true));
             }
         }
+        Collections.shuffle(result);
         return result;
     }
 

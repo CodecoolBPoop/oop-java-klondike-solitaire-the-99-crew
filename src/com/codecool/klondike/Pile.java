@@ -40,12 +40,8 @@ public class  Pile extends Pane {
         return cards;
     }
 
-    public int numOfCards(boolean plusCard) {
-        int numOfCards = 0;
-        if (plusCard) {
-            numOfCards ++;
-        }
-        return numOfCards;
+    public int numOfCards() {
+        return this.cards.size();
     }
 
 
@@ -59,7 +55,6 @@ public class  Pile extends Pane {
 
     public void addCard(Card card) {
         cards.add(card);
-        numOfCards(true);
         card.setContainingPile(this);
         card.toFront();
         layoutCard(card);

@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 import java.util.List;
 import java.util.ListIterator;
 
-public class Pile extends Pane {
+public class  Pile extends Pane {
 
     private PileType pileType;
     private String name;
@@ -39,21 +39,26 @@ public class Pile extends Pane {
         return cards;
     }
 
-    public int numOfCards() {
-        //TODO
-        return 1;
+    public int numOfCards(boolean plusCard) {
+        int numOfCards = 0;
+        if (plusCard) {
+            numOfCards ++;
+        }
+        return numOfCards;
     }
+
 
     public boolean isEmpty() {
         return cards.isEmpty();
     }
 
     public void clear() {
-        //TODO
+        cards.removeAll();
     }
 
     public void addCard(Card card) {
         cards.add(card);
+        numOfCards(true);
         card.setContainingPile(this);
         card.toFront();
         layoutCard(card);

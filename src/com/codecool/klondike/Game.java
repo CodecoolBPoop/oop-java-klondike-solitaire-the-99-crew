@@ -1,5 +1,6 @@
 package com.codecool.klondike;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class    Game extends Pane {
+public class Game extends Pane {
 
     private List<Card> deck = new ArrayList<>();
 
@@ -77,7 +78,7 @@ public class    Game extends Pane {
         if (draggedCards.isEmpty())
             return;
         Card card = (Card) e.getSource();
-        Pile pile = getValidIntersectingPile(card, foundationPiles);
+        Pile pile = getValidIntersectingPile(card, foundationPiles); // this was Taebleau originally! temporarly changed by tócsi for development
         //TODO
         if (pile != null) {
             handleValidMove(card, pile);
@@ -87,18 +88,17 @@ public class    Game extends Pane {
         }
     };
 
-    public static boolean isGameWon() {
+    public static void isGameWon() {
         int completionCounter = 0;
         for (Pile pile: foundationPiles) {
-            if(pile.numOfCards() == 13){
+            if(pile.numOfCards() == 1){
                 completionCounter += 1;
             }
         }
-        if (completionCounter == 1) {
+        if (completionCounter == 4) {
             System.out.println("You won!!!");
-            return true;
-        } else {
-            return false;
+            JavaFX.displayWinWindow();
+            JavaFX.waitAndQuit();
         }
     }
 

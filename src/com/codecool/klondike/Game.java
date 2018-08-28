@@ -96,7 +96,7 @@ public class    Game extends Pane {
         deck = Card.createNewDeck();
         initPiles();
         dealCards();
-        
+
     }
 
     public void addMouseEventHandlers(Card card) {
@@ -183,7 +183,19 @@ public class    Game extends Pane {
 
     public void dealCards() {
         Iterator<Card> deckIterator = deck.iterator();
-        //TODO
+        int cardsToAdd = 1;
+        for(Pile tableauPile: tableauPiles){
+            for (int i = 0; i < cardsToAdd; i++) {
+                Card cardToAdd = deckIterator.next();
+                if (i + 1  == cardsToAdd){
+                    cardToAdd.flip();
+                }
+                tableauPile.addCard(cardToAdd);
+                addMouseEventHandlers(cardToAdd);
+                getChildren().add(cardToAdd);
+            }
+            cardsToAdd++;
+        }
         deckIterator.forEachRemaining(card -> {
             stockPile.addCard(card);
             addMouseEventHandlers(card);

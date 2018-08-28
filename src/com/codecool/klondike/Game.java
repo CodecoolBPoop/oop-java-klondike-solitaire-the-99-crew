@@ -23,7 +23,7 @@ public class Game extends Pane {
 
     private Pile stockPile;
     private Pile discardPile;
-    private List<Pile> foundationPiles = FXCollections.observableArrayList();
+    private static List<Pile> foundationPiles = FXCollections.observableArrayList();
     private List<Pile> tableauPiles = FXCollections.observableArrayList();
 
     private double dragStartX, dragStartY;
@@ -77,7 +77,7 @@ public class Game extends Pane {
         if (draggedCards.isEmpty())
             return;
         Card card = (Card) e.getSource();
-        Pile pile = getValidIntersectingPile(card, tableauPiles);
+        Pile pile = getValidIntersectingPile(card, foundationPiles);
         //TODO
         if (pile != null) {
             handleValidMove(card, pile);
@@ -87,9 +87,19 @@ public class Game extends Pane {
         }
     };
 
-    public boolean isGameWon() {
-        //TODO
-        return false;
+    public static boolean isGameWon() {
+        int completionCounter = 0;
+        for (Pile pile: foundationPiles) {
+            if(pile.numOfCards() == 13){
+                completionCounter += 1;
+            }
+        }
+        if (completionCounter == 1) {
+            System.out.println("You won!!!");
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public Game() {

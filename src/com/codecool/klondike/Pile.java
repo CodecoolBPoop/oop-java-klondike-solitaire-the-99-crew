@@ -40,8 +40,8 @@ public class Pile extends Pane {
     }
 
     public int numOfCards() {
-        //TODO
-        return 1;
+        int numberOfCards = this.cards.size();
+        return numberOfCards;
     }
 
     public boolean isEmpty() {
@@ -57,6 +57,7 @@ public class Pile extends Pane {
         card.setContainingPile(this);
         card.toFront();
         layoutCard(card);
+        Game.isGameWon();
     }
 
     private void layoutCard(Card card) {

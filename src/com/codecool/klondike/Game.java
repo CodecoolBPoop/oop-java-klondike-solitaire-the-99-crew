@@ -96,6 +96,7 @@ public class    Game extends Pane {
         deck = Card.createNewDeck();
         initPiles();
         dealCards();
+        
     }
 
     public void addMouseEventHandlers(Card card) {

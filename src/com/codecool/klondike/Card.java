@@ -16,7 +16,6 @@ public class Card extends ImageView {
 
     private int rank;
     private boolean faceDown;
-
     private Image backFace;
     private Image frontFace;
     private Pile containingPile;

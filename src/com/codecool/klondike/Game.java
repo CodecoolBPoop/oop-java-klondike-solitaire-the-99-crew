@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Game extends Pane {
+public class    Game extends Pane {
 
     private List<Card> deck = new ArrayList<>();
 

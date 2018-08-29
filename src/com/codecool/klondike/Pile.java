@@ -71,7 +71,9 @@ public class  Pile extends Pane {
     }
 
     public void flipTopCard(){
-        this.getTopCard().turnUpside();
+        if (this.name.contains("Tableau")) {
+            this.getTopCard().turnUpside();
+        }
     }
 
     public Card getTopCard() {

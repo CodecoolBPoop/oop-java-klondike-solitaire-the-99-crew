@@ -34,7 +34,5 @@ public class JavaFX {
         winStage.setTitle("Winner!!!");
         winStage.setScene(winScene);
         winStage.show();
-
     }
-
 }

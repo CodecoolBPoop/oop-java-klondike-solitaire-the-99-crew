@@ -49,6 +49,12 @@ public class Card extends ImageView {
         return faceDown;
     }
 
+    public void turnUpside() {
+        if(this.isFaceDown()){
+            this.flip();
+        }
+    }
+
     public String getShortName() {
         return "S" + suit + "R" + rank;
     }

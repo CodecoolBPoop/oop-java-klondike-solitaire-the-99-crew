@@ -22,7 +22,6 @@ import java.util.List;
 public class Game extends Pane {
 
     private List<Card> deck = new ArrayList<>();
-
     private Pile stockPile;
     private Pile discardPile;
     private static List<Pile> foundationPiles = FXCollections.observableArrayList();
@@ -35,6 +34,9 @@ public class Game extends Pane {
     private static double FOUNDATION_GAP = 0;
     private static double TABLEAU_GAP = 30;
 
+    public List<Pile> getTableauPiles(){
+        return tableauPiles;
+    }
 
     private EventHandler<MouseEvent> onMouseClickedHandler = e -> {
         Card card = (Card) e.getSource();
@@ -75,15 +77,6 @@ public class Game extends Pane {
         card.setTranslateY(offsetY);
     };
 
-    private void autoFlip(){
-        Iterator<Pile> pileIterator = tableauPiles.iterator();
-        while (pileIterator.hasNext()) {
-            if (pileIterator.next().getTopCard().isFaceDown()) {
-                pileIterator.next().getTopCard().flip();
-            }
-        }
-    }
-
     private EventHandler<MouseEvent> onMouseReleasedHandler = e -> {
         if (draggedCards.isEmpty())
             return;
@@ -96,7 +89,6 @@ public class Game extends Pane {
             draggedCards.forEach(MouseUtil::slideBack);
             draggedCards = null;
         }
-        autoFlip();
     };
 
     public static void isGameWon() {

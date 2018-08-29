@@ -61,12 +61,17 @@ public class  Pile extends Pane {
         Game.isGameWon();
     }
 
+
     private void layoutCard(Card card) {
         card.relocate(card.getLayoutX() + card.getTranslateX(), card.getLayoutY() + card.getTranslateY());
         card.setTranslateX(0);
         card.setTranslateY(0);
         card.setLayoutX(getLayoutX());
         card.setLayoutY(getLayoutY() + (cards.size() - 1) * cardGap);
+    }
+
+    public void flipTopCard(){
+        this.getTopCard().turnUpside();
     }
 
     public Card getTopCard() {

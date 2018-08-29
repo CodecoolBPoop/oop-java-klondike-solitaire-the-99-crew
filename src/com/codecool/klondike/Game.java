@@ -91,14 +91,13 @@ public class Game extends Pane {
     public static void isGameWon() {
         int completionCounter = 0;
         for (Pile pile: foundationPiles) {
-            if(pile.numOfCards() == 1){
+            if(pile.numOfCards() == 13){
                 completionCounter += 1;
             }
         }
         if (completionCounter == 4) {
             System.out.println("You won!!!");
             JavaFX.displayWinWindow();
-            JavaFX.waitAndQuit();
         }
     }
 

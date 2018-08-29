@@ -7,9 +7,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import java.util.concurrent.TimeUnit;
-
-
+import javafx.scene.control.Button;
+import javafx.geometry.Insets;
 
 
 public class JavaFX {
@@ -18,20 +17,24 @@ public class JavaFX {
         Stage winStage = new Stage();
         winStage.initStyle(StageStyle.UNDECORATED);
         winStage.initModality(Modality.WINDOW_MODAL);
+
         VBox winBox = new VBox();
-        winBox.getChildren().add(new Label("\n\n\n\n          Congratulations! You won!!"));
-        Scene winScene = new Scene(winBox, 250, 150);
+        winBox.getChildren().add(new Label("Congratulations! You won!!\n\n"));
+        winBox.setPadding(new Insets(60, 0, 50, 70));
+        winBox.setSpacing(10);
+        Scene winScene = new Scene(winBox, 300, 150);
+
+        Button okButton = new Button();
+        okButton.setText("OK");
+        okButton.setOnAction(value ->  {
+            Platform.exit();
+        });
+        winBox.getChildren().add(okButton);
+
         winStage.setTitle("Winner!!!");
         winStage.setScene(winScene);
         winStage.show();
-    }
 
-    public static void waitAndQuit(){
-        try {
-            TimeUnit.SECONDS.sleep(3); // other option -> Thread.sleep(3000);
-        } catch (Exception InterruptedException){}
-        Platform.exit();
     }
-
 
 }

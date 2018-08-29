@@ -41,6 +41,10 @@ public class Card extends ImageView {
         return suit;
     }
 
+    public String getSuitName(){
+        return suit.name();
+    }
+
     public int getRank() {
         return rank;
     }

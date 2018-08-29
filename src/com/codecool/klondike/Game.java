@@ -1,5 +1,6 @@
 package com.codecool.klondike;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -18,13 +19,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class    Game extends Pane {
+public class Game extends Pane {
 
     private List<Card> deck = new ArrayList<>();
 
     private Pile stockPile;
     private Pile discardPile;
-    private List<Pile> foundationPiles = FXCollections.observableArrayList();
+    private static List<Pile> foundationPiles = FXCollections.observableArrayList();
     private List<Pile> tableauPiles = FXCollections.observableArrayList();
 
     private double dragStartX, dragStartY;
@@ -88,9 +89,17 @@ public class    Game extends Pane {
         }
     };
 
-    public boolean isGameWon() {
-        //TODO
-        return false;
+    public static void isGameWon() {
+        int completionCounter = 0;
+        for (Pile pile: foundationPiles) {
+            if(pile.numOfCards() == 13){
+                completionCounter += 1;
+            }
+        }
+        if (completionCounter == 4) {
+            System.out.println("You won!!!");
+            JavaFX.displayWinWindow();
+        }
     }
 
     public Game() {

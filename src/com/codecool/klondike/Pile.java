@@ -58,6 +58,7 @@ public class  Pile extends Pane {
         card.setContainingPile(this);
         card.toFront();
         layoutCard(card);
+        Game.isGameWon();
     }
 
     private void layoutCard(Card card) {

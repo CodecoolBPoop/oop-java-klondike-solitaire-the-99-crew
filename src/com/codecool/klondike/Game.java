@@ -187,8 +187,10 @@ public class Game extends Pane {
             }
         }
         else if (tableauPiles.contains(destPile)){
-            if (destPile.isEmpty()) {
+            if (destPile.isEmpty() && card.getRank() == 13) {
                 return true;
+            } else if (destPile.isEmpty() && card.getRank() != 13) {
+                return false;
             } else if (topCard.isFaceDown()){
                 return false;
             } else if (Arrays.asList(redCards).contains(topCard.getSuitName()) & Arrays.asList(blackCards).contains(card.getSuitName())){

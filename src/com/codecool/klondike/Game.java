@@ -79,12 +79,13 @@ public class Game extends Pane {
             draggedCards.add(card);
             Iterator<Card> cardIterator = activePile.getCards().iterator();
             while (cardIterator.hasNext()) {
-                if (cardIterator.next() == card) {
+                Card currentCard = cardIterator.next();
+                if (currentCard == card) {
                     foundTheCard = true;
                     continue;
                 }
                 if (foundTheCard == true) {
-                    draggedCards.add(cardIterator.next());
+                    draggedCards.add(currentCard);
                 }
             }
         }

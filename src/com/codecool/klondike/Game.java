@@ -73,6 +73,15 @@ public class Game extends Pane {
         draggedCards.clear();
         draggedCards.add(card);
 
+        card.getDropShadow().setRadius(20);
+        card.getDropShadow().setOffsetX(10);
+        card.getDropShadow().setOffsetY(10);
+
+        card.toFront();
+        card.setTranslateX(offsetX);
+        card.setTranslateY(offsetY);
+
+        
         boolean foundTheCard = false;
         if (!activePile.isThisTheTopCard(card)) {
             draggedCards.clear();
@@ -86,17 +95,16 @@ public class Game extends Pane {
                 }
                 if (foundTheCard == true) {
                     draggedCards.add(currentCard);
+                    currentCard.getDropShadow().setRadius(20);
+                    currentCard.getDropShadow().setOffsetX(10);
+                    currentCard.getDropShadow().setOffsetY(10);
+                    currentCard.toFront();
+                    currentCard.setTranslateX(offsetX);
+                    currentCard.setTranslateY(offsetY);
                 }
             }
         }
 
-        card.getDropShadow().setRadius(20);
-        card.getDropShadow().setOffsetX(10);
-        card.getDropShadow().setOffsetY(10);
-
-        card.toFront();
-        card.setTranslateX(offsetX);
-        card.setTranslateY(offsetY);
     };
 
     private EventHandler<MouseEvent> onMouseReleasedHandler = e -> {

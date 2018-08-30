@@ -80,6 +80,31 @@ public class Game extends Pane {
         card.toFront();
         card.setTranslateX(offsetX);
         card.setTranslateY(offsetY);
+
+        
+        boolean foundTheCard = false;
+        if (!activePile.isThisTheTopCard(card)) {
+            draggedCards.clear();
+            draggedCards.add(card);
+            Iterator<Card> cardIterator = activePile.getCards().iterator();
+            while (cardIterator.hasNext()) {
+                Card currentCard = cardIterator.next();
+                if (currentCard == card) {
+                    foundTheCard = true;
+                    continue;
+                }
+                if (foundTheCard == true) {
+                    draggedCards.add(currentCard);
+                    currentCard.getDropShadow().setRadius(20);
+                    currentCard.getDropShadow().setOffsetX(10);
+                    currentCard.getDropShadow().setOffsetY(10);
+                    currentCard.toFront();
+                    currentCard.setTranslateX(offsetX);
+                    currentCard.setTranslateY(offsetY);
+                }
+            }
+        }
+
     };
 
     private EventHandler<MouseEvent> onMouseReleasedHandler = e -> {

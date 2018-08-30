@@ -90,19 +90,19 @@ public class Game extends Pane {
         allPiles.addAll(tableauPiles);
         Pile pile = getValidIntersectingPile(card, allPiles);
         if (pile.getPileType().equals(Pile.PileType.FOUNDATION)) {
-            if (pile != null) {
+            if (pile != null & isMoveValid(card, pile)) {
                 handleValidMove(card, pile);
             } else {
                 draggedCards.forEach(MouseUtil::slideBack);
-                draggedCards = null;
+                draggedCards = FXCollections.observableArrayList();
             }
         }
         else if(pile.getPileType().equals(Pile.PileType.TABLEAU)){
-            if (pile != null) {
+            if (pile != null & isMoveValid(card, pile)) {
                 handleValidMove(card, pile);
             } else {
                 draggedCards.forEach(MouseUtil::slideBack);
-                draggedCards = null;
+                draggedCards = FXCollections.observableArrayList();
             }
         }
     };
@@ -150,7 +150,10 @@ public class Game extends Pane {
         if (foundationPiles.contains(destPile)) {
             if (destPile.isEmpty() & card.getRank() == 1) {
                 return true;
-            } else if (topCard.getSuit() == card.getSuit() & topCard.getRank() == card.getRank()-1 ) {
+            } else if (destPile.isEmpty() & card.getRank() != 1){
+                return false;
+            }
+            else if (topCard.getSuit() == card.getSuit() & topCard.getRank() == card.getRank()-1 ) {
                 return true;
             }
         }
@@ -175,8 +178,7 @@ public class Game extends Pane {
         Pile result = null;
         for (Pile pile : piles) {
             if (!pile.equals(card.getContainingPile()) &&
-                    isOverPile(card, pile) &&
-                    isMoveValid(card, pile))
+                    isOverPile(card, pile))
                 result = pile;
         }
         return result;

@@ -65,7 +65,6 @@ public class Game extends Pane {
     private EventHandler<MouseEvent> onMouseDraggedHandler = e -> {
         Card card = (Card) e.getSource();
         Pile activePile = card.getContainingPile();
-        System.out.println(activePile.isThisTheTopCard(card));
         if (activePile.getPileType() == Pile.PileType.STOCK)
             return;
         double offsetX = e.getSceneX() - dragStartX;
@@ -74,12 +73,17 @@ public class Game extends Pane {
         draggedCards.clear();
         draggedCards.add(card);
 
+        boolean foundTheCard = false;
         if (!activePile.isThisTheTopCard(card)) {
+            draggedCards.clear();
+            draggedCards.add(card);
             Iterator<Card> cardIterator = activePile.getCards().iterator();
             while (cardIterator.hasNext()) {
-                if (cardIterator.next() != card) {
+                if (cardIterator.next() == card) {
+                    foundTheCard = true;
                     continue;
-                } else {
+                }
+                if (foundTheCard == true) {
                     draggedCards.add(cardIterator.next());
                 }
             }

@@ -14,6 +14,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,11 +25,12 @@ import java.util.stream.Stream;
 
 public class Game extends Pane {
 
-    private List<Card> deck = new ArrayList<>();
+    public static List<Card> deck = new ArrayList<>();
     private Pile stockPile;
     private Pile discardPile;
-    private static List<Pile> foundationPiles = FXCollections.observableArrayList();
-    private static List<Pile> tableauPiles = FXCollections.observableArrayList();
+    public static List<Pile> foundationPiles = FXCollections.observableArrayList();
+    public static List<Pile> tableauPiles = FXCollections.observableArrayList();
+
 
 
 
@@ -275,13 +277,15 @@ public class Game extends Pane {
         int cardsToAdd = 1;
         for(Pile tableauPile: tableauPiles){
             for (int i = 0; i < cardsToAdd; i++) {
-                Card cardToAdd = deckIterator.next();
-                if (i + 1  == cardsToAdd){
-                    cardToAdd.flip();
+                if (deckIterator.hasNext()) {
+                    Card cardToAdd = deckIterator.next();
+                    if (i + 1 == cardsToAdd) {
+                        cardToAdd.flip();
+                    }
+                    tableauPile.addCard(cardToAdd);
+                    addMouseEventHandlers(cardToAdd);
+                    getChildren().add(cardToAdd);
                 }
-                tableauPile.addCard(cardToAdd);
-                addMouseEventHandlers(cardToAdd);
-                getChildren().add(cardToAdd);
             }
             cardsToAdd++;
         }

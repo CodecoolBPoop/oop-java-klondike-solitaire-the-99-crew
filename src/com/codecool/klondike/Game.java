@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Game extends Pane {
 
@@ -27,6 +29,8 @@ public class Game extends Pane {
     private Pile discardPile;
     private static List<Pile> foundationPiles = FXCollections.observableArrayList();
     private static List<Pile> tableauPiles = FXCollections.observableArrayList();
+
+
 
     private double dragStartX, dragStartY;
     private List<Card> draggedCards = FXCollections.observableArrayList();
@@ -94,13 +98,24 @@ public class Game extends Pane {
         if (draggedCards.isEmpty())
             return;
         Card card = (Card) e.getSource();
-        Pile pile = getValidIntersectingPile(card, tableauPiles);
-        //TODO
-        if (pile != null) {
-            handleValidMove(card, pile);
-        } else {
-            draggedCards.forEach(MouseUtil::slideBack);
-            draggedCards = null;
+        List<Pile> allPiles = new ArrayList<>(foundationPiles);
+        allPiles.addAll(tableauPiles);
+        Pile pile = getValidIntersectingPile(card, allPiles);
+        if (pile.getPileType().equals(Pile.PileType.FOUNDATION)) {
+            if (pile != null) {
+                handleValidMove(card, pile);
+            } else {
+                draggedCards.forEach(MouseUtil::slideBack);
+                draggedCards = null;
+            }
+        }
+        else if(pile.getPileType().equals(Pile.PileType.TABLEAU)){
+            if (pile != null) {
+                handleValidMove(card, pile);
+            } else {
+                draggedCards.forEach(MouseUtil::slideBack);
+                draggedCards = null;
+            }
         }
     };
 

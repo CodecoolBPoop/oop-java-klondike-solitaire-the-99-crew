@@ -65,7 +65,7 @@ public class Game extends Pane {
     private EventHandler<MouseEvent> onMouseDraggedHandler = e -> {
         Card card = (Card) e.getSource();
         Pile activePile = card.getContainingPile();
-        if (activePile.getPileType() == Pile.PileType.STOCK)
+        if (activePile.getPileType() == Pile.PileType.STOCK || card.isFaceDown() == true)
             return;
         double offsetX = e.getSceneX() - dragStartX;
         double offsetY = e.getSceneY() - dragStartY;
@@ -89,21 +89,25 @@ public class Game extends Pane {
         List<Pile> allPiles = new ArrayList<>(foundationPiles);
         allPiles.addAll(tableauPiles);
         Pile pile = getValidIntersectingPile(card, allPiles);
-        if (pile.getPileType().equals(Pile.PileType.FOUNDATION)) {
-            if (pile != null & isMoveValid(card, pile)) {
-                handleValidMove(card, pile);
-            } else {
-                draggedCards.forEach(MouseUtil::slideBack);
-                draggedCards = FXCollections.observableArrayList();
+        if (pile != null) {
+            if (pile.getPileType().equals(Pile.PileType.FOUNDATION)) {
+                if (pile != null & isMoveValid(card, pile)) {
+                    handleValidMove(card, pile);
+                } else {
+                    draggedCards.forEach(MouseUtil::slideBack);
+                    draggedCards = FXCollections.observableArrayList();
+                }
+            } else if (pile.getPileType().equals(Pile.PileType.TABLEAU)) {
+                if (pile != null & isMoveValid(card, pile)) {
+                    handleValidMove(card, pile);
+                } else {
+                    draggedCards.forEach(MouseUtil::slideBack);
+                    draggedCards = FXCollections.observableArrayList();
+                }
             }
-        }
-        else if(pile.getPileType().equals(Pile.PileType.TABLEAU)){
-            if (pile != null & isMoveValid(card, pile)) {
-                handleValidMove(card, pile);
-            } else {
-                draggedCards.forEach(MouseUtil::slideBack);
-                draggedCards = FXCollections.observableArrayList();
-            }
+        } else {
+            draggedCards.forEach(MouseUtil::slideBack);
+            draggedCards = FXCollections.observableArrayList();
         }
     };
 

@@ -8,6 +8,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -59,6 +60,21 @@ public class  Pile extends Pane {
         card.toFront();
         layoutCard(card);
         Game.isGameWon();
+    }
+
+    public boolean isThisTheTopCard(Card card) {
+        boolean isItLast = false;
+        Iterator<Card> cardIterator = this.cards.iterator();
+        while (cardIterator.hasNext()) {
+            if (cardIterator.next() != card) {
+                continue;
+            } else {
+                if (!cardIterator.hasNext()) {
+                    isItLast = true;
+                }
+            }
+        }
+        return isItLast;
     }
 
 

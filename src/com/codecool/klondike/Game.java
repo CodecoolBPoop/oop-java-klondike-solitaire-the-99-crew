@@ -65,7 +65,7 @@ public class Game extends Pane {
     private EventHandler<MouseEvent> onMouseDraggedHandler = e -> {
         Card card = (Card) e.getSource();
         Pile activePile = card.getContainingPile();
-        if (activePile.getPileType() == Pile.PileType.STOCK)
+        if (activePile.getPileType() == Pile.PileType.STOCK || card.isFaceDown() == true)
             return;
         double offsetX = e.getSceneX() - dragStartX;
         double offsetY = e.getSceneY() - dragStartY;
@@ -106,21 +106,25 @@ public class Game extends Pane {
         List<Pile> allPiles = new ArrayList<>(foundationPiles);
         allPiles.addAll(tableauPiles);
         Pile pile = getValidIntersectingPile(card, allPiles);
-        if (pile.getPileType().equals(Pile.PileType.FOUNDATION)) {
-            if (pile != null) {
-                handleValidMove(card, pile);
-            } else {
-                draggedCards.forEach(MouseUtil::slideBack);
-                draggedCards = null;
+        if (pile != null) {
+            if (pile.getPileType().equals(Pile.PileType.FOUNDATION)) {
+                if (pile != null & isMoveValid(card, pile)) {
+                    handleValidMove(card, pile);
+                } else {
+                    draggedCards.forEach(MouseUtil::slideBack);
+                    draggedCards = FXCollections.observableArrayList();
+                }
+            } else if (pile.getPileType().equals(Pile.PileType.TABLEAU)) {
+                if (pile != null & isMoveValid(card, pile)) {
+                    handleValidMove(card, pile);
+                } else {
+                    draggedCards.forEach(MouseUtil::slideBack);
+                    draggedCards = FXCollections.observableArrayList();
+                }
             }
-        }
-        else if(pile.getPileType().equals(Pile.PileType.TABLEAU)){
-            if (pile != null) {
-                handleValidMove(card, pile);
-            } else {
-                draggedCards.forEach(MouseUtil::slideBack);
-                draggedCards = null;
-            }
+        } else {
+            draggedCards.forEach(MouseUtil::slideBack);
+            draggedCards = FXCollections.observableArrayList();
         }
     };
 
@@ -167,7 +171,10 @@ public class Game extends Pane {
         if (foundationPiles.contains(destPile)) {
             if (destPile.isEmpty() & card.getRank() == 1) {
                 return true;
-            } else if (topCard.getSuit() == card.getSuit() & topCard.getRank() == card.getRank()-1 ) {
+            } else if (destPile.isEmpty() & card.getRank() != 1){
+                return false;
+            }
+            else if (topCard.getSuit() == card.getSuit() & topCard.getRank() == card.getRank()-1 ) {
                 return true;
             }
         }
@@ -192,8 +199,7 @@ public class Game extends Pane {
         Pile result = null;
         for (Pile pile : piles) {
             if (!pile.equals(card.getContainingPile()) &&
-                    isOverPile(card, pile) &&
-                    isMoveValid(card, pile))
+                    isOverPile(card, pile))
                 result = pile;
         }
         return result;
